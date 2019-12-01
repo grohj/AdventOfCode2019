@@ -29,7 +29,7 @@ def test_fuel_for_fuel():
 
 
 if __name__ == "__main__":
-    with open("../inputs/day_1.day_1.txt") as f:
+    with open("../inputs/day_1.txt") as f:
         lines = f.read().splitlines()
     numbers = list(map(lambda x: int(x), lines))  # I know, I know, use iterator, bla bla.
     part1Total = sum(map(lambda x: mass_to_fuel(x), numbers))
