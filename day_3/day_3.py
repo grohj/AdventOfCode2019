@@ -61,6 +61,6 @@ if __name__ == "__main__":
         wire_1 = f.readline().split(",")
         wire_2 = f.readline().split(",")
 
-    test_run_wires()
-    print(run_wires(wire_1, wire_2))
+    #test_run_wires()
+    #print(run_wires(wire_1, wire_2))
     print(nearest_intersection(wire_1, wire_2))
