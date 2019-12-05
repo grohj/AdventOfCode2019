@@ -1,6 +1,6 @@
 def parse_opcode(arr, index):
-    code = str(arr[index])  # 1002
-    op = int(code[-2:])  # 02
+    code = str(arr[index])
+    op = int(code[-2:])
     modes = [0, 0, 0]
 
     if len(code) > 1:
@@ -8,40 +8,34 @@ def parse_opcode(arr, index):
         for i in range(len(rest)):
             modes[i] = int(rest[i])
 
+    def first():
+        return arr[arr[index + 1]] if modes[0] == 0 else arr[index + 1]
+
+    def second():
+        return arr[arr[index + 2]] if modes[1] == 0 else arr[index + 2]
+
     if op == 1 or op == 2:
-        left = arr[arr[index + 1]] if modes[0] == 0 else arr[index + 1]
-        right = arr[arr[index + 2]] if modes[1] == 0 else arr[index + 2]
+        first = first()
+        second = second()
         out = arr[index + 3]
-        arr[out] = left + right if op == 1 else left * right
+        arr[out] = first + second if op == 1 else first * second
         return arr, index + 4
     elif op == 3:
-        out = arr[index + 1]
         print("I need input:")
-        arr[out] = int(input())
+        arr[arr[index + 1]] = int(input())
         return arr, index + 2
     elif op == 4:
-        out = arr[arr[index + 1]] if modes[0] == 0 else arr[index + 1]
-        print(out)
+        print(arr[arr[index + 1]] if modes[0] == 0 else arr[index + 1])
         return arr, index + 2
     elif op == 5:
-        first = arr[arr[index + 1]] if modes[0] == 0 else arr[index + 1]
-        second = arr[arr[index + 2]] if modes[1] == 0 else arr[index + 2]
-        return arr, index + 3 if first == 0 else second
+        return arr, index + 3 if first() == 0 else second()
     elif op == 6:
-        first = arr[arr[index + 1]] if modes[0] == 0 else arr[index + 1]
-        second = arr[arr[index + 2]] if modes[1] == 0 else arr[index + 2]
-        return arr, index + 3 if first != 0 else second
+        return arr, index + 3 if first() != 0 else second()
     elif op == 7:
-        first = arr[arr[index + 1]] if modes[0] == 0 else arr[index + 1]
-        second = arr[arr[index + 2]] if modes[1] == 0 else arr[index + 2]
-        out = arr[index + 3]
-        arr[out] = 1 if first < second else 0
+        arr[arr[index + 3]] = 1 if first() < second() else 0
         return arr, index + 4
     else:  # op == 8
-        first = arr[arr[index + 1]] if modes[0] == 0 else arr[index + 1]
-        second = arr[arr[index + 2]] if modes[1] == 0 else arr[index + 2]
-        out = arr[index + 3]
-        arr[out] = 1 if first == second else 0
+        arr[arr[index + 3]] = 1 if first() == second() else 0
         return arr, index + 4
 
 
@@ -79,6 +73,7 @@ def manual_test():
     print("""The below example program uses an input instruction to ask for a single number. The program will then output 
     999 if the input value is below 8, output 1000 if the input value is equal to 8, or output 1001 if the input 
     value is greater than 8. """)
+
     run_program(
         [3, 21, 1008, 21, 8, 20, 1005, 20, 22, 107, 8, 21, 20, 1006, 20, 31, 1106, 0, 36, 98, 0, 0, 1002, 21, 125, 20,
          4, 20, 1105, 1, 46, 104, 999, 1105, 1, 46, 1101, 1000, 1, 20, 4, 20, 1105, 1, 46, 98, 99])
