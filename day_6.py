@@ -1,8 +1,10 @@
-from collections import deque
+from collections import deque, defaultdict
+from itertools import groupby
+
 def parse(rel):
     return tuple(rel.split(")"))
 
-with open("../inputs/day_6.txt") as f:
+with open("inputs/day_6.txt") as f:
     pairs = f.read().splitlines()
 
 def uniq():
@@ -14,9 +16,9 @@ def uniq():
 
 if __name__ == "__main__":
     nodes = set(uniq())
-    rel2 = {v:k for k,v in map(lambda x: parse(x), pairs)}
     rel = {v:k for k,v in map(lambda x: parse(x), pairs)}
 
+    rel2 = {k:v for k,v in groupby(map(lambda x: parse(x), pairs))}
 
     total = 0
     for node in nodes:
@@ -26,13 +28,18 @@ if __name__ == "__main__":
             ctr += 1
         total += ctr
 
-    print(total)
+    print(total) # End of part 1
 
+    rel, rel2 = defaultdict(list), defaultdict(list)
+    
+    for a,b in map(lambda x: parse(x), pairs):
+        rel[a].append(b)
+        rel2[b].append(a)
 
-    rel.update(rel2)
 
     current = "YOU"
-    visited = set(current)
+    visited = set()
+    visited.add(current)
     next = deque()
     next.append(current)
     ctr = 0
@@ -42,12 +49,15 @@ if __name__ == "__main__":
         while len(next) != 0:
             n = next.popleft()
             visited.add(n)
-            for x in [rel[x] for x in rel if n in x and rel[x] not in visited]:
-                next.append(x)
+
+            if n in rel:
+                new.extend([x for x in rel[n] if x not in visited])
+            if n in rel2:
+                new.extend([x for x in rel2[n] if x not in visited])
 
         next = new
         ctr += 1
 
-    print(ctr)
+    print(ctr-2) # End of part 2
 
 

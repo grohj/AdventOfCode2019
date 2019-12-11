@@ -80,7 +80,7 @@ def manual_test():
 
 
 if __name__ == "__main__":
-    with open("../inputs/day_5.txt") as f:
+    with open("inputs/day_5.txt") as f:
         program = f.read().split(",")
 
     codes = list(map(lambda x: int(x), program))

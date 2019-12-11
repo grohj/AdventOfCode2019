@@ -57,7 +57,7 @@ def test_nearest_intersection():
 
 
 if __name__ == "__main__":
-    with open("../inputs/day_3.txt") as f:
+    with open("inputs/day_3.txt") as f:
         wire_1 = f.readline().split(",")
         wire_2 = f.readline().split(",")
 

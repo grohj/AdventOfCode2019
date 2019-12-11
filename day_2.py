@@ -37,7 +37,7 @@ def find_correct(og_arr):
 
 
 if __name__ == "__main__":
-    with open("../inputs/day_2.txt") as f:
+    with open("inputs/day_2.txt") as f:
         separated = f.read().split(",")
 
     arr = list(map(lambda x: int(x), separated))
